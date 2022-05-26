@@ -1,2 +1,44 @@
 Report for practical 2
+This report contains a C program which converts a hostname into its relevant IP address. The “gethostbyname()” function of the C programming language is designed to serve this purpose.
+struct hostent *host_name;
+ if ( (host_name = gethostbyname(hostname) ) == NULL) {
+        herror("gethostbyname error");             
+        return 1;     
+}     
+The gethostbyname() function belongs to the “hostent” structure. This function only accepts a single argument, which is the host’s name to be resolved. If the name of the host cannot be found or is invalid, then an error message is generated as a result of calling the gethostbyname() function of the C programming language.
+int DNSlookup(char * hostname , char* ip);
+ int main(int argc , char *argv[]){
+        if(argc < 2) // this function has 2 arguments (hostname & ip)//
+        {
+            printf("Cannot do it!");
+            exit(1);
+        }
+char *hostname = argv[1];  //name of host//    
+char ip[100];     //the correspond ip//
+DNSlookup(hostname,ip);     //called the function//
+printf("%s have IP is: %s\n", hostname, ip);     
+}
+I first created a function named “DNSLookUp” with an integer data type. This function accepts two arguments, i.e., a character pointer named “hostname” and another one named “ip.” Here, the “hostname” parameter will be passed to this function as a command-line argument once i will execute our code. The “ip” parameter simply corresponds to the character array that will hold the IP address translation of the provided hostname.
+After that, I called the “DNSLookUp()” function with the “hostname” and “ip” parameters. Then a message will be printed on the terminal, the provided hostname, and its corresponding IP address.
+if ( (host_name = gethostbyname(hostname) ) == NULL) {
+        herror("gethostbyname error");             
+        return 1;     
+}     
+addr_list = (struct in_addr **) host_name->h_addr_list;     
+for(i = 0; addr_list[i] != NULL; i++)    //look up for the correspond ip address against the provided hostname
+{             
+strcpy(ip , inet_ntoa(*addr_list[i]));             
+return 0;}     //the correspond IP is found//   
+return 1;  //the correspond IP is not found//
+}
+Ie have an “if” statement to check whether the value returned by the “gethostbyname()” function is “NULL” or not. If it is “NULL” then, my program will terminate while displaying an error message. If not, then my “for” loop will be executed in which the DNS server will be looked up for the IP address against the provided hostname. If the corresponding IP address is found, then this function will return a “0” value otherwise “1”.
+The result run from my computer:
+ubuntu@nguyen-linh-lap:~/netprog2022$ gcc 02.practical.work.gethostbyname.c -o 02.practical.work.gethostbyname
+ubuntu@nguyen-linh-lap:~/netprog2022$ ./02.practical.work.gethostbyname localhost
+localhost have IP is: 127.0.0.1
+ubuntu@nguyen-linh-lap:~/netprog2022$ ./02.practical.work.gethostbyname www.google.com
+www.google.com have IP is: 172.217.25.4
+ubuntu@nguyen-linh-lap:~/netprog2022$ ./02.practical.work.gethostbyname www.youtube.com
+www.youtube.com have IP is: 142.250.204.110
+Run program on VPS:
 
