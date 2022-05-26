@@ -27,10 +27,9 @@ int DNSlookup(char * hostname , char* ip){
                 herror("gethostbyname error");             
                 return 1;     
         }     
-addr_list = (struct in_addr **) host_name->h_addr_list;     
-for(i = 0; addr_list[i] != NULL; i++)    //look up for the correspond ip address against the provided hostname
-{             
-        strcpy(ip , inet_ntoa(*addr_list[i]));             
-        return 0;}     //the correspond IP is found//   
-        return 1;  //the correspond IP is not found//
+        addr_list = (struct in_addr **) host_name->h_addr_list;     
+        for(i = 0; addr_list[i] != NULL; i++) {   //look up for the correspond ip address against the provided hostname             
+                strcpy(ip , inet_ntoa(*addr_list[i]));             
+                return 0;}     //the correspond IP is found//   
+                return 1;  //the correspond IP is not found//
 }
