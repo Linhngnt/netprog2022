@@ -11,7 +11,7 @@ int main() {
     unsigned short port = 8784; 
     char clientms[1000], serverms[1000];
 
-	if ((sockfd=socket(AF_INET, SOCK_STREAM, 0)) < 0) {
+    if ((sockfd=socket(AF_INET, SOCK_STREAM, 0)) < 0) {
         printf("Error creating socket\n");
         return 1;
     }
