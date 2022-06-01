@@ -6,18 +6,18 @@
 #include<netdb.h>
 
 int main() {
-	struct sockaddr_in saddr;
+    struct sockaddr_in saddr;
     struct hostent *h;
     int sockfd;
     unsigned short port = 8784; 
-    char Clientms[1000], serverms[1000];
+    char clientms[1000], serverms[1000];
     
     if ((sockfd=socket(AF_INET, SOCK_STREAM, 0)) < 0) {
         printf("Error creating socket\n");
         return 1;
     }
 
-	char hostname[100];    
+    char hostname[100];    
     struct in_addr *address;
     printf("Enter host domain name: ");
     scanf("%s", hostname); 
@@ -40,9 +40,9 @@ int main() {
     
     while (1) {
         printf("Message to server: ");
-        scanf("%s", Clientms);
+        scanf("%s", clientms);
 
-        if (send(sockfd, Clientms, sizeof(Clientms), 0) < 0) {
+        if (send(sockfd, clientms, strlen(clientms) + 1, 0) < 0) {
             printf("Cannot send to server");
         }
         if (recv(sockfd, serverms, sizeof(serverms), 0) < 0) {

@@ -6,10 +6,10 @@
 #include<netdb.h>
 
 int main() {
-	int sockfd, clen, clientfd;
+    int sockfd, clen, clientfd;
     struct sockaddr_in saddr, caddr;
     unsigned short port = 8784; 
-    char Clientms[1000], serverms[1000];
+    char clientms[1000], serverms[1000];
 
 	if ((sockfd=socket(AF_INET, SOCK_STREAM, 0)) < 0) {
         printf("Error creating socket\n");
@@ -39,15 +39,15 @@ int main() {
     printf("Connected\n");
 
     while (1) {
-        if (recv(clientfd, Clientms, sizeof(Clientms), 0) < 0) {
+        if (recv(clientfd, clientms, sizeof(clientms), 0) < 0) {
             printf("Cannot get message from client");
         }
-        printf("Client: %s \n", Clientms);
+        printf("Client: %s \n", clientms);
 
         printf("Message to client: ");
         scanf("%s", serverms);
 
-        if (send(clientfd, serverms, sizeof(serverms), 0) < 0) {
+        if (send(clientfd, serverms, strlen(serverms) + 1, 0) < 0) {
             printf("Cannot send to client\n");
         }
     }
