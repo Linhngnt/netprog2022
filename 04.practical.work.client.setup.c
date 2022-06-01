@@ -11,7 +11,6 @@
 int main(int argc, char *argv[]) {
     struct sockaddr_in saddr;
     struct hostent *h;
-    struct in_addr **addr_list;
     int sockfd;
     unsigned short port = 8784; 
     
@@ -20,31 +19,16 @@ int main(int argc, char *argv[]) {
         return 1;
     }
 
-    if(argc < 2) {
-            printf("Cannot do it!");
-            exit(1);
-        }
-    
-    char *hostname = argv[1];    
-    char ip[100];      
+    char hostname[100];    
+    struct in_addr *address;
+    printf("Enter host domain name: ");
+    scanf("%s", hostname); 
 
-    h = gethostbyname(hostname);
-
-    if (h == NULL) {
+    if ((h=gethostbyname(hostname)) == NULL) {
         printf("Unknown host\n");
         return 1;
     }
     
-    int i = 0;
-    addr_list = (struct in_addr **) h->h_addr_list;     
-        for(i = 0; addr_list[i] != NULL; i++) {              
-            strcpy(ip , inet_ntoa(*addr_list[i]));             
-            printf("%s have IP is: %s\n", hostname, ip);
-            return 0;
-            }  
-            printf("Cannot find");
-            return 1;  
-
     memset(&saddr, 0, sizeof(saddr));
     saddr.sin_family = AF_INET;
     memcpy((char *) &saddr.sin_addr.s_addr, h->h_addr_list[0], h->h_length);
