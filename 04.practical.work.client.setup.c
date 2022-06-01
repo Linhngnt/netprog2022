@@ -8,7 +8,7 @@
 #include <arpa/inet.h>
 #include <netdb.h>
 
-int main(int argc, char *argv[]) {
+int main() {
     struct sockaddr_in saddr;
     struct hostent *h;
     int sockfd;
