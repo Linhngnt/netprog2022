@@ -48,6 +48,7 @@ int main() {
         if (recv(sockfd, serverms, sizeof(serverms), 0) < 0) {
             printf("Cannot get message from server");
         }
+        printf("Server: %s \n", serverms);
     }
     return 0;
 }
