@@ -40,7 +40,7 @@ int main(){
     printf("Connected\n");
 
     while (1){
-        printf("Message from client: ");
+        printf("Client: ");
         do
         {
             fgets(clientms, 1234, stdin);
@@ -49,7 +49,7 @@ int main(){
             };
         } 
         while (clientms[strlen(clientms) - 1] != '\n');
-        printf("Server: ");
+        printf("Message from server: ");
         do
         {
             if (recv(sockfd, serverms, 1234, 0) <0) {

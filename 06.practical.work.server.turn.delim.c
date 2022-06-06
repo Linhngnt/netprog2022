@@ -30,7 +30,6 @@ int main(){
         perror("Error listening");
         return 1;
     }
-    printf("Listening on port %d...\n", port);
 
     clen = sizeof(caddr);
     if ((clientfd = accept(sockfd, (struct sockaddr *)&caddr, &clen)) < 0){
@@ -41,7 +40,7 @@ int main(){
     printf("Connected!\n");
 
     while (1) {
-        printf("Client: ");
+        printf("Message from client: ");
         do {
             if (recv(clientfd, clientms, 1234, 0)<0) {
                 printf("Can not get client's message!!!");
@@ -49,7 +48,7 @@ int main(){
             printf("%s\n", clientms);
         } 
         while (clientms[strlen(clientms) - 1] != '\n');
-        printf("Message from server: ");
+        printf("Server: ");
         do {
             fgets(serverms, 1234, stdin);
             
