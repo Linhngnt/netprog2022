@@ -51,16 +51,19 @@ int main(){
             }
         } 
         while (clientms[strlen(clientms) - 1] != '\n');
+
+        if (strcmp(serverms,"/dc\n\0")==0){
+                printf("Server disconnected\n");
+                close(clientfd);
+                close(sockfd);
+                return 0;
+        }
         printf("Server: ");
+
         do {
             fgets(serverms, 1234, stdin);
             if (strcmp(serverms,"/dc\n\0")==0){
-                shutdown(sockfd,SHUT_RDWR);
-                shutdown(clientfd, SHUT_RDWR);
-                printf("Server disconnected\n");
-                close(sockfd);
-                close(clientfd);
-                return 0;
+                send(clientfd, serverms, strlen(serverms)+1, 0);
             }
         send(clientfd, serverms, strlen(serverms) + 1, 0);
         } 

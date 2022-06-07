@@ -48,7 +48,6 @@ int main(){
             fgets(clientms, 1234, stdin);
             if (strcmp(clientms,"/quit\n\0")==0) {
                 send(sockfd, clientms, strlen(clientms) + 1, 0);
-                shutdown(sockfd,SHUT_RDWR);
                 close(sockfd);
                 printf("Client disconnected \n");
                 return 0;
@@ -59,7 +58,12 @@ int main(){
         printf("Message from server: ");
         do
         {
-            recv(sockfd, serverms, 1234, 0)
+            recv(sockfd, serverms, 1234, 0);
+            if (strcmp(serverms,"/dc\n")==0){
+                close(sockfd);
+                printf("Server disconnected\n");
+                return 0;
+            }
             printf("%s\n",serverms);
         } 
         while (serverms[strlen(serverms) - 1] != '\n');
