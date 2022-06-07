@@ -4,6 +4,8 @@
 #include<sys/socket.h>
 #include<arpa/inet.h> 
 #include<netdb.h>
+#include <fcntl.h> 
+#include<unistd.h>
 
 int main(){
     char hostname[1234];
@@ -44,17 +46,20 @@ int main(){
         do
         {
             fgets(clientms, 1234, stdin);
-            if (send(sockfd, clientms, strlen(clientms) + 1, 0)<0){
-                printf("Cannot send to server!!!");
-            };
+            if (strcmp(clientms,"/quit\n\0")==0) {
+                send(sockfd, clientms, strlen(clientms) + 1, 0);
+                shutdown(sockfd,SHUT_RDWR);
+                close(sockfd);
+                printf("Client disconnected \n");
+                return 0;
+            }
+            send(sockfd, clientms, strlen(clientms) + 1, 0);
         } 
         while (clientms[strlen(clientms) - 1] != '\n');
         printf("Message from server: ");
         do
         {
-            if (recv(sockfd, serverms, 1234, 0) <0) {
-                printf("Cannot get server's message!!!");
-            }
+            recv(sockfd, serverms, 1234, 0)
             printf("%s\n",serverms);
         } 
         while (serverms[strlen(serverms) - 1] != '\n');

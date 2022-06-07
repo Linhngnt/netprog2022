@@ -4,6 +4,8 @@
 #include<sys/socket.h>
 #include<arpa/inet.h> 
 #include<netdb.h>
+#include <fcntl.h> 
+#include <unistd.h>
 
 int main(){
     int sockfd, clen, clientfd;
@@ -42,21 +44,27 @@ int main(){
     while (1) {
         printf("Message from client: ");
         do {
-            if (recv(clientfd, clientms, 1234, 0)<0) {
-                printf("Cannot get client's message!!!");
-            }           
+            recv(clientfd, clientms, 1234, 0);         
             printf("%s\n", clientms);
+            if (strcmp(clientms,"/quit\n\0")==0) {
+                printf("Client disconnected\n");
+            }
         } 
         while (clientms[strlen(clientms) - 1] != '\n');
         printf("Server: ");
         do {
             fgets(serverms, 1234, stdin);
-            
-            if (send(clientfd, serverms, strlen(serverms) + 1, 0)<0) {
-                printf("Cannot send to client!!!");
+            if (strcmp(serverms,"/dc\n\0")==0){
+                shutdown(sockfd,SHUT_RDWR);
+                shutdown(clientfd, SHUT_RDWR);
+                printf("Server disconnected\n");
+                close(sockfd);
+                close(clientfd);
+                return 0;
             }
+        send(clientfd, serverms, strlen(serverms) + 1, 0);
         } 
-        while (serverms[strlen(serverms) - 1] != '\n');   
+        while (serverms[strlen(serverms) - 1] != '\n');
     }
     return 0;
 }
